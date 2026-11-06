@@ -224,21 +224,23 @@ selected_fan_players = st.multiselect(
     options=rated_players,
     key="selected_fan_players"
 )
-filtered_ratings = average_ratings[
-    average_ratings.index.isin(selected_fan_players)
-]
 
 
-
-bar_fig = px.bar(
-    x=filtered_ratings.index,
-    y=filtered_ratings.values,
-    labels={"x": "Player", "y": "Average Fan Rating"},
-    title="Average Fan Ratings by Player",
-    color=filtered_ratings.index,
-    range_y=[0, 10]
-)
-st.plotly_chart(bar_fig, use_container_width=True)
+if len(selected_fan_players) > 0:
+    filtered_ratings = average_ratings[
+        average_ratings.index.isin(selected_fan_players)
+    ]
+    bar_fig = px.bar(
+        x=filtered_ratings.index,
+        y=filtered_ratings.values,
+        labels={"x": "Player", "y": "Average Fan Rating"},
+        title="Average Fan Ratings by Player",
+        color=filtered_ratings.index,
+        range_y=[0, 10]
+    )
+    st.plotly_chart(bar_fig, use_container_width=True)
+else:
+    st.warning("Please select at least one player to display the chart.")
 
 
 
